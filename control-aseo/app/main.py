@@ -37,8 +37,9 @@ def _ip_local() -> str:
 @app.get("/")
 def index(request: Request):
     return templates.TemplateResponse(
+        request,
         "index.html",
-        {"request": request, "areas": list(CHECKLISTS.keys()), "ip_local": _ip_local()},
+        {"areas": list(CHECKLISTS.keys()), "ip_local": _ip_local()},
     )
 
 
@@ -60,7 +61,7 @@ def ver_aseo(request: Request, sesion_id: int):
     if not sesion:
         raise HTTPException(404, "Sesión no encontrada.")
     return templates.TemplateResponse(
-        "aseo.html", {"request": request, "sesion": sesion, "items": items}
+        request, "aseo.html", {"sesion": sesion, "items": items}
     )
 
 
@@ -116,7 +117,7 @@ def finalizar(sesion_id: int):
 @app.get("/historial")
 def historial(request: Request):
     sesiones = database.listar_sesiones()
-    return templates.TemplateResponse("historial.html", {"request": request, "sesiones": sesiones})
+    return templates.TemplateResponse(request, "historial.html", {"sesiones": sesiones})
 
 
 @app.get("/historial/{sesion_id}")
@@ -125,5 +126,5 @@ def detalle_sesion(request: Request, sesion_id: int):
     if not sesion:
         raise HTTPException(404, "Sesión no encontrada.")
     return templates.TemplateResponse(
-        "detalle.html", {"request": request, "sesion": sesion, "items": items}
+        request, "detalle.html", {"sesion": sesion, "items": items}
     )
