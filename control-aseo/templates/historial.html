@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block titulo %}Historial{% endblock %}
+{% block contenido %}
+<h1>Historial de aseos</h1>
+
+{% if not sesiones %}
+<p class="ayuda">Aún no hay aseos registrados.</p>
+{% else %}
+<table class="tabla">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Encargado</th>
+            <th>Área</th>
+            <th>Inicio</th>
+            <th>Fin</th>
+            <th>Estado</th>
+            <th>Resultado</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s in sesiones %}
+        <tr onclick="window.location='/historial/{{ s.id }}'">
+            <td>{{ s.id }}</td>
+            <td>{{ s.encargado }}</td>
+            <td>{{ s.area }}</td>
+            <td>{{ s.hora_inicio.replace('T', ' ') }}</td>
+            <td>{{ s.hora_fin.replace('T', ' ') if s.hora_fin else '-' }}</td>
+            <td>{{ 'Finalizado' if s.estado == 'finalizado' else 'En progreso' }}</td>
+            <td>
+                {% if s.nivel_general %}
+                <span class="badge badge-{{ s.nivel_general|lower }}">{{ s.nivel_general }}</span>
+                {% else %}-{% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}

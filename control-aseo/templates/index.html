@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block titulo %}Iniciar Aseo{% endblock %}
+{% block contenido %}
+<h1>Iniciar nuevo aseo</h1>
+<p class="ayuda">Servidor local activo en: <code>http://{{ ip_local }}:8000</code></p>
+
+<form method="post" action="/iniciar" class="tarjeta">
+    <label for="encargado">Nombre de quien realiza el aseo</label>
+    <input type="text" id="encargado" name="encargado" required autocomplete="name" placeholder="Ej: Juan Pérez">
+
+    <label for="area">Área a limpiar</label>
+    <select id="area" name="area" required>
+        {% for area in areas %}
+        <option value="{{ area }}">{{ area }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit" class="boton boton-primario">Iniciar aseo (marca hora de inicio)</button>
+</form>
+{% endblock %}

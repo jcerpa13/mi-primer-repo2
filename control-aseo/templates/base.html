@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block titulo %}Control de Aseo{% endblock %}</title>
+<link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<header class="topbar">
+    <a href="/" class="marca">🧹 Control de Aseo</a>
+    <a href="/historial" class="link-historial">Historial</a>
+</header>
+<main class="contenedor">
+    {% block contenido %}{% endblock %}
+</main>
+</body>
+</html>

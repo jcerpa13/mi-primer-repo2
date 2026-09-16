@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block titulo %}Detalle Aseo #{{ sesion.id }}{% endblock %}
+{% block contenido %}
+<h1>Aseo #{{ sesion.id }} — {{ sesion.area }}</h1>
+<p class="ayuda">
+    Encargado: <strong>{{ sesion.encargado }}</strong> ·
+    Inicio: {{ sesion.hora_inicio.replace('T', ' ') }} ·
+    Fin: {{ sesion.hora_fin.replace('T', ' ') if sesion.hora_fin else '—' }} ·
+    Resultado general:
+    {% if sesion.nivel_general %}
+    <span class="badge badge-{{ sesion.nivel_general|lower }}">{{ sesion.nivel_general }}</span>
+    {% else %}—{% endif %}
+</p>
+
+<div class="lista-items">
+    {% for item in items %}
+    <div class="tarjeta item">
+        <div class="item-cabecera">
+            <span class="item-nombre">{{ item.nombre_item }}</span>
+            <span class="badge badge-item {% if item.nivel %}badge-{{ item.nivel|lower }}{% endif %}">
+                {{ item.nivel or "Sin foto" }}
+            </span>
+        </div>
+        {% if item.foto_path %}
+        <img class="miniatura" src="/fotos/{{ item.foto_path }}" alt="Foto de {{ item.nombre_item }}">
+        {% endif %}
+        {% if item.retroalimentacion %}
+        <p class="retro">{{ item.retroalimentacion }}</p>
+        <p class="motor">Analizado con: {{ item.motor_ia }}</p>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
