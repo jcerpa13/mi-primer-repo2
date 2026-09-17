@@ -122,10 +122,12 @@ def analizar_imagen(ruta_imagen: str, nombre_item: str):
         try:
             nivel, retro = _analizar_con_ollama(ruta_imagen, nombre_item)
             return nivel, retro, f"ollama:{OLLAMA_VISION_MODEL}"
-        except Exception:
+        except Exception as e:
             # Si Ollama falla por cualquier motivo, no bloqueamos el flujo:
-            # caemos de forma transparente al analizador heurístico.
-            pass
+            # caemos de forma transparente al analizador heurístico, pero
+            # dejamos el motivo en la consola del servidor para poder
+            # diagnosticarlo.
+            print(f"[IA] Ollama fallo, usando heuristico. Motivo: {e!r}")
 
     nivel, retro = _analizar_heuristico(ruta_imagen, nombre_item)
     return nivel, retro, "heuristico_opencv"
